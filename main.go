@@ -50,7 +50,6 @@ download [id] - prints the MPD url the video is available at and returns the mp4
 		rootCmd.Usage()
 		return
 	}
-	// panic(huluSession)
 
 	client := hulu.NewDefaultClient(huluSession)
 	w := tabwriter.NewWriter(os.Stdout, 8, 8, 0, '\t', 0)

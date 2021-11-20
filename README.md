@@ -1,5 +1,4 @@
 # Hulu Downloader
-
 The code in this repository allows you to download videos unencumbered with DRM from Hulu.  The code in `widevine` is in general independent of the Hulu related code and can be used for Widevine license generation/decryption.  The code in `hulu` is also standalone but only implements a handful of endpoints that are basically only useful for a command line tool of this nature.
 
 ## Prerequisites
@@ -17,7 +16,6 @@ Visit [https://hulu.com](https://hulu.com).  Click the lock icon in the URL bar.
 Visit [https://hulu.com](https://hulu.com).  Right click and then click Inspect.  Then visit the Storage tab.  Now, under the cookies pane on the left, select hulu.com.  Then retrieve the value of `_hulu_session` from the list of cookies.  A demonstration can be found [here](https://www.cookieyes.com/wp-content/uploads/2021/10/firefox1.mp4).
 
 ## Demonstration
-
 Say we want to download an episode of M\*A\*S\*H.
 
     $ go install github.com/chris124567/hulu # The rest of these commands assume $GOPATH/bin is in your PATH.  If it is not, just cd to $GOPATH/bin and run "./hulu" instead of "hulu"
@@ -94,12 +92,11 @@ Finally, we can merge the two sources (this command does not do any reencoding):
 
     $ ffmpeg -i video_dec.mp4 -i audio_dec.mp4 -acodec copy -vcodec copy merged.mp4
 
-And now merged.mp4 will be a DRM free mp4 file straight from Hulu!  It is possible to automate nearly all of these steps by writing a simple script.
+And now merged.mp4 will be a DRM free mp4 file straight from Hulu!  It is possible to automate these steps by writing a simple script.
 
 ## TODO
 - Subtitles
 - Storing authentication cookie in a text file to avoid having to pass it for every command
 
 ## Credits
-
 The bulk of the Widevine related code was ported from `pywidevine` which is a library floating around the Internet of unknown provenance.

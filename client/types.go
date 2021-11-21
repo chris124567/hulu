@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// These are constants taken from https://player.hulu.com/site/dash/308343-site-curiosity/js/app.js
 var (
 	deejayKey = []byte{110, 191, 200, 79, 60, 48, 66, 23, 178, 15, 217, 166, 108, 181, 149, 127}
 )

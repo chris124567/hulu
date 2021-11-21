@@ -167,7 +167,7 @@ func (c Client) Playlist(sessionKey int, eabID string) (p Playlist, err error) {
 	randUUID := func() string {
 		randChars := func(n int) (s string) {
 			c := []byte("ABCDEF0123456789")
-			for i := 0; i < 4; i++ {
+			for i := 0; i < n; i++ {
 				s += string(c[frand.Intn(len(c))])
 			}
 			return

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"github.com/chris124567/hulu/hulu"
+	hulu "github.com/chris124567/hulu/client"
 	"github.com/chris124567/hulu/widevine"
 	"io"
 	"lukechampine.com/flagg"

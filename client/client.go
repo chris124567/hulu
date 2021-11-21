@@ -164,7 +164,7 @@ func (c Client) PlaybackInformation(id string) (p PlaybackInformation, err error
 // the MPD file URL, and information relating to subtitles (Hulu calls them
 // transcripts).
 func (c Client) Playlist(sessionKey int, eabID string) (p Playlist, err error) {
-	randUUID := func() (s string) {
+	randUUID := func() string {
 		randChars := func(n int) (s string) {
 			c := []byte("ABCDEF0123456789")
 			for i := 0; i < 4; i++ {

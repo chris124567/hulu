@@ -1,4 +1,4 @@
-package hulu
+package client
 
 import (
 	"bytes"

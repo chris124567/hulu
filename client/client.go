@@ -9,12 +9,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"lukechampine.com/frand"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
 	"time"
+
+	"lukechampine.com/frand"
 )
 
 const (
@@ -30,24 +31,15 @@ type Client struct {
 
 // Returns a Client object that will use the provided Hulu session cookie to
 // interact with the Hulu API.
-func NewClient(c *http.Client, huluSession string) Client {
-	// they look something like 5E95F69687FDD039CD0388A39FC01E5A
-	huluGUID := func() (s string) {
-		c := []byte("ABCDEF0123456789")
-		for i := 0; i < 32; i++ {
-			s += string(c[frand.Intn(len(c))])
-		}
-		return
-	}()
-
+func NewClient(c *http.Client, huluSession, huluGUID string) Client {
 	return Client{c, huluSession, huluGUID}
 }
 
 // Returns a Client object using a default HTTP client with a timeout of 10s.
-func NewDefaultClient(huluSession string) Client {
+func NewDefaultClient(huluSession, huluGUID string) Client {
 	return NewClient(&http.Client{
 		Timeout: 10 * time.Second,
-	}, huluSession)
+	}, huluSession, huluGUID)
 }
 
 // Makes an HTTP request to a Hulu API endpoint.  The only cookie Hulu validates is

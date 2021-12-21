@@ -2,16 +2,21 @@ package main
 
 import (
 	"bytes"
+	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	hulu "github.com/chris124567/hulu/client"
-	"github.com/chris124567/hulu/widevine"
 	"io"
-	"lukechampine.com/flagg"
 	"net/http"
 	"os"
+	"strings"
 	"text/tabwriter"
 	"time"
+
+	"github.com/google/uuid"
+
+	hulu "github.com/chris124567/hulu/client"
+	"github.com/chris124567/hulu/widevine"
+	"lukechampine.com/flagg"
 )
 
 func main() {
@@ -45,13 +50,24 @@ download [id] - prints the MPD url the video is available at and returns the mp4
 	}
 	cmd := flagg.Parse(tree)
 
+	huluGUID := os.Getenv("HULU_GUID")
+	// if GUID is not provided, use hash of hostname instead
+	if huluGUID == "" {
+		hostname, err := os.Hostname()
+		if err != nil {
+			panic(err)
+		}
+		uuid := uuid.UUID(md5.Sum([]byte(hostname)))
+		huluGUID = strings.ReplaceAll(strings.ToUpper(uuid.String()), "-", "")
+	}
+
 	huluSession := os.Getenv("HULU_SESSION")
 	if huluSession == "" {
 		rootCmd.Usage()
 		return
 	}
 
-	client := hulu.NewDefaultClient(huluSession)
+	client := hulu.NewDefaultClient(huluSession, huluGUID)
 	w := tabwriter.NewWriter(os.Stdout, 8, 8, 0, '\t', 0)
 	defer w.Flush()
 

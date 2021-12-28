@@ -37,12 +37,18 @@ type Key struct {
 // Creates a new CDM object with the specified device information.
 func NewCDM(privateKey string, clientID []byte, initData []byte) (CDM, error) {
 	block, _ := pem.Decode([]byte(privateKey))
-	if block == nil || block.Type != "PRIVATE KEY" {
+	if block == nil || (block.Type != "PRIVATE KEY" && block.Type != "RSA PRIVATE KEY") {
 		return CDM{}, errors.New("failed to decode device private key")
 	}
-	keyParsed, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+
+	keyParsed, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
-		return CDM{}, err
+		// if PCKS1 doesn't work, try PCKS8
+		pcks8Key, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+		if err != nil {
+			return CDM{}, err
+		}
+		keyParsed = pcks8Key.(*rsa.PrivateKey)
 	}
 
 	var widevineCencHeader WidevineCencHeader
@@ -67,7 +73,7 @@ func NewCDM(privateKey string, clientID []byte, initData []byte) (CDM, error) {
 	}()
 
 	return CDM{
-		privateKey: keyParsed.(*rsa.PrivateKey),
+		privateKey: keyParsed,
 		clientID:   clientID,
 
 		widevineCencHeader: widevineCencHeader,

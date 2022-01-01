@@ -1,3 +1,6 @@
+# Notice
+Widevine is currently revoking a lot of keys.  This program won't work unless you have your own Widevine key and device information (I do not have any working keys).
+
 # Hulu Downloader
 The code in this repository allows you to download videos unencumbered with DRM from Hulu.  The code in `widevine` is in general independent of the Hulu related code and can be used for Widevine license generation/decryption.  The code in `client` is also standalone but only implements a handful of Hulu API endpoints that are basically only useful for a tool of this nature.
 

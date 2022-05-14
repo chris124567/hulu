@@ -35,8 +35,8 @@ type Key struct {
 }
 
 // Creates a new CDM object with the specified device information.
-func NewCDM(privateKey string, clientID []byte, initData []byte) (CDM, error) {
-	block, _ := pem.Decode([]byte(privateKey))
+func NewCDM(privateKey, clientID, initData []byte) (CDM, error) {
+	block, _ := pem.Decode(privateKey)
 	if block == nil || (block.Type != "PRIVATE KEY" && block.Type != "RSA PRIVATE KEY") {
 		return CDM{}, errors.New("failed to decode device private key")
 	}
